@@ -1,1 +1,21 @@
-spring.application.name=auth-service
+server:
+  port: 8003
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5313/authdb
+    password: postgres
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    enabled: true
+
+jwt:
+  secret: qO8zR9Avpm1FLzXzo1kS9OytZ+QjzUpgGzkhEwo6hH4=
+  issuer: fintech-application
+  expiration: 3600000 # 1 ???

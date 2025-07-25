@@ -1,0 +1,47 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-2" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_to_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_to_role">
+
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role_id" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="user_to_role"
+                       columnNames="user_id, role_id"
+                       constraintName="pk_user_to_role"/>
+
+        <addForeignKeyConstraint
+                baseTableName="user_to_role"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_user_to_role_user"/>
+
+        <addForeignKeyConstraint
+                baseTableName="user_to_role"
+                baseColumnNames="role_id"
+                referencedTableName="user_role"
+                referencedColumnNames="id"
+                constraintName="fk_user_to_role_role"/>
+
+    </changeSet>
+
+</databaseChangeLog>

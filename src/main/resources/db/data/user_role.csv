@@ -1,0 +1,9 @@
+id;name
+USER;Пользователь
+ADMIN;Администратор
+CREDIT_USER;Кредитный пользователь
+OVERDRAFT_USER;Овердрафт пользователь
+DEAL_SUPERUSER;Суперпользователь сделок
+CONTRACTOR_RUS;Контрагент (Россия)
+CONTRACTOR_SUPERUSER;Суперпользователь контрагентов
+SUPERUSER;Суперпользователь
