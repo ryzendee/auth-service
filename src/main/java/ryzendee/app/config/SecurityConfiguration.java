@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(proxyTargetClass = true)
 @Configuration
 public class SecurityConfiguration {
 
@@ -49,8 +49,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtFilter jwtFilter(JwtDecoder jwtDecoder, JwtAuthenticationProvider authenticationProvider) {
-        return new JwtFilter(jwtDecoder, authenticationProvider);
+    public JwtFilter jwtFilter(JwtAuthenticationProvider authenticationProvider) {
+        return new JwtFilter(authenticationProvider);
     }
 
     @Bean
