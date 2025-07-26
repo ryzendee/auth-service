@@ -32,6 +32,10 @@ public class AuthServiceIT extends AbstractServiceIT {
     @BeforeEach
     void setUp() {
         databaseUtil.cleanDatabase();
+
+        Role defaultRole = roleFixture();
+        defaultRole.setId(DEFAULT_ROLE_USER);
+        databaseUtil.save(defaultRole);
     }
 
     @Test
