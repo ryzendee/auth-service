@@ -50,7 +50,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         userToRoleRepository.saveAll(userToRoles);
     }
 
-    @PreAuthorize("#login == authentication.name or hasRole('ADMIN')")
     @Transactional(readOnly = true)
     @Override
     public List<RoleDetails> getUserRolesByLogin(String login) {
