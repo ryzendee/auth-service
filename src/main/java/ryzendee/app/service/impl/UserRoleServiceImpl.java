@@ -39,7 +39,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with given login does not exists"));
 
         List<ryzendee.app.model.Role> roles = userRoleRepository.findByIdIn(request.roles());
-        if (roles.size() != request.roles().length) {
+        if (roles.size() != request.roles().size()) {
             List<UserRole> missingRoles = findMissingRoles(roles, request.roles());
             throw new MissingUserRoleException("Some roles are missing, try again later", missingRoles);
         }
@@ -53,7 +53,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @PreAuthorize("#login == authentication.name or hasRole('ADMIN')")
     @Transactional(readOnly = true)
     @Override
-    public List<RoleDetails> gerUserRolesByLogin(String login) {
+    public List<RoleDetails> getUserRolesByLogin(String login) {
         if (!userRepository.existsByLogin(login)) {
             throw new ResourceNotFoundException("User with given login does not exists");
         }
@@ -63,12 +63,12 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .toList();
     }
 
-    private List<UserRole> findMissingRoles(List<ryzendee.app.model.Role> roles, UserRole[] requestedRoles) {
+    private List<UserRole> findMissingRoles(List<ryzendee.app.model.Role> roles, List<UserRole> requestedRoles) {
         Set<UserRole> foundRolesSet = roles.stream()
                 .map(ryzendee.app.model.Role::getId)
                 .collect(Collectors.toSet());
 
-        return Arrays.stream(requestedRoles)
+        return requestedRoles.stream()
                 .filter(role -> !foundRolesSet.contains(role))
                 .toList();
     }

@@ -21,6 +21,6 @@ public class UserRoleRestController implements UserRoleApi {
 
     @Override
     public List<RoleDetails> gerUserRolesByLogin(String login) {
-        return userRoleService.gerUserRolesByLogin(login);
+        return userRoleService.getUserRolesByLogin(login);
     }
 }

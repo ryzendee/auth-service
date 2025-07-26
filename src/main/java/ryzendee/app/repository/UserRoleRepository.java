@@ -22,7 +22,7 @@ public interface UserRoleRepository extends JpaRepository<Role, UserRole> {
      * @param ids массив ролей {@link UserRole}
      * @return список ролей
      */
-    List<Role> findByIdIn(UserRole[] ids);
+    List<Role> findByIdIn(List<UserRole> ids);
 
     /**
      * Получает список ролей, назначенных пользователю по логину.

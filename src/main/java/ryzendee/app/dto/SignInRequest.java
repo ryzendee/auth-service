@@ -3,13 +3,14 @@ package ryzendee.app.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
 /**
  * DTO для запроса аутентификации и авторизации пользователя.
  *
  * @author Dmitry Ryazantsev
  */
-
+@Builder
 @Schema(description = "Объект-запрос аутентификации")
 public record SignInRequest(
 

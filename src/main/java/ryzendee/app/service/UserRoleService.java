@@ -8,6 +8,6 @@ import java.util.List;
 public interface UserRoleService {
 
     void saveRole(RoleSaveRequest request);
-    List<RoleDetails> gerUserRolesByLogin(String login);
+    List<RoleDetails> getUserRolesByLogin(String login);
 
 }

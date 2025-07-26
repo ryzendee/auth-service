@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import ryzendee.app.jwt.UserRole;
 
+import java.util.List;
+
 /**
  * DTO-запрос для сохранения ролей пользователя.
  * Используется для назначения одной или нескольких ролей пользователю по логину.
@@ -22,7 +24,7 @@ public record RoleSaveRequest(
 
         @Schema(description = "Массив назначаемых ролей", example = "[\"ADMIN\", \"SUPERUSER\"]")
         @NotEmpty(message = "roles не может быть пустым")
-        UserRole[] roles
+        List<UserRole> roles
 
 ) {
 }
