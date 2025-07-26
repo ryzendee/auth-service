@@ -15,6 +15,8 @@ import java.util.List;
 public class UserRoleRestController implements UserRoleApi {
 
     private final UserRoleService userRoleService;
+
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void saveRole(RoleSaveRequest request) {
         userRoleService.saveRole(request);
