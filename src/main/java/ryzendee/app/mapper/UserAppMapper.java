@@ -5,9 +5,8 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.dto.SignUpResponse;
-import ryzendee.app.jwt.JwtPayload;
-import ryzendee.app.jwt.UserRole;
-import ryzendee.app.model.Role;
+import ryzendee.starter.jwt.decoder.AuthRole;
+import ryzendee.starter.jwt.decoder.JwtPayload;
 import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
 import ryzendee.app.model.UserToRoleId;
@@ -50,7 +49,14 @@ public interface UserAppMapper {
      */
     JwtPayload toJwtCredentials(User model);
 
-    default List<UserRole> map(List<UserToRole> userToRoleList) {
+    /**
+     * Преобразует список моделей связей пользователя {@link UserToRole}
+     * в список с enum {@link AuthRole}.
+     *
+     * @param userToRoleList список связей пользователя и ролей
+     * @return список ролей пользователя
+     */
+    default List<AuthRole> map(List<UserToRole> userToRoleList) {
         return userToRoleList.stream()
                 .map(UserToRole::getId)
                 .map(UserToRoleId::getRoleId)

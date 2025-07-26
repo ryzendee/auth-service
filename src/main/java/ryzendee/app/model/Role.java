@@ -2,7 +2,7 @@ package ryzendee.app.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 /**
  * Модель роли пользователя.
@@ -20,7 +20,7 @@ public class Role {
 
     @Id
     @Enumerated(EnumType.STRING)
-    private UserRole id;
+    private AuthRole id;
 
     @Column(nullable = false)
     private String name;

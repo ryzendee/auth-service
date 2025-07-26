@@ -18,13 +18,14 @@ import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
 import ryzendee.app.service.AuthService;
+import ryzendee.starter.jwt.config.JwtSecurityAutoConfiguration;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static ryzendee.app.testutils.FixtureUtil.signInRequestBuilderFixture;
 import static ryzendee.app.testutils.FixtureUtil.signUpRequestFixtureBuilder;
 
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, JwtSecurityAutoConfiguration.class})
 @WebMvcTest(AuthRestController.class)
 public class AuthRestControllerTest {
 

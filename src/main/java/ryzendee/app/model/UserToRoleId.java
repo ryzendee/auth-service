@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -28,5 +28,5 @@ public class UserToRoleId implements Serializable {
     private UUID userId;
 
     @Enumerated(EnumType.STRING)
-    private UserRole roleId;
+    private AuthRole roleId;
 }

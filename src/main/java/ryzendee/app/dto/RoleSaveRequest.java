@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public record RoleSaveRequest(
 
         @Schema(description = "Массив назначаемых ролей", example = "[\"ADMIN\", \"SUPERUSER\"]")
         @NotEmpty(message = "roles не может быть пустым")
-        List<UserRole> roles
+        List<AuthRole> roles
 
 ) {
 }

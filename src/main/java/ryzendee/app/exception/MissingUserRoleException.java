@@ -1,6 +1,6 @@
 package ryzendee.app.exception;
 
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import java.util.List;
 
 public class MissingUserRoleException extends RuntimeException {
 
-    private final List<UserRole> missingRoles;
+    private final List<AuthRole> missingRoles;
 
-    public MissingUserRoleException(String message, List<UserRole> missingRoles) {
+    public MissingUserRoleException(String message, List<AuthRole> missingRoles) {
         super(message);
         this.missingRoles = missingRoles;
     }

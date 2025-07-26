@@ -4,8 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import ryzendee.app.dto.RoleDetails;
-import ryzendee.app.jwt.JwtPayload;
-import ryzendee.app.model.User;
 
 /**
  * Маппер для преобразования данных роли.

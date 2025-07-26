@@ -3,7 +3,7 @@ package ryzendee.app.testutils;
 import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.dto.SignInRequest;
 import ryzendee.app.dto.SignUpRequest;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
 
@@ -14,7 +14,7 @@ public class FixtureUtil {
     public static RoleSaveRequest.RoleSaveRequestBuilder roleSaveRequestBuilderFixture() {
         return RoleSaveRequest.builder()
                 .login("role")
-                .roles( List.of(UserRole.ADMIN));
+                .roles( List.of(AuthRole.ADMIN));
     }
 
 
@@ -33,7 +33,7 @@ public class FixtureUtil {
 
     public static Role roleFixture() {
         return Role.builder()
-                .id(UserRole.USER)
+                .id(AuthRole.USER)
                 .name("Пользователь")
                 .build();
     }

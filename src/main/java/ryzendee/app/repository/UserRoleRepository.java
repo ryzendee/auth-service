@@ -3,9 +3,8 @@ package ryzendee.app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ryzendee.app.jwt.UserRole;
 import ryzendee.app.model.Role;
-import ryzendee.app.model.User;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.util.List;
 
@@ -14,15 +13,15 @@ import java.util.List;
  *
  * @author Dmitry Ryazantsev
  */
-public interface UserRoleRepository extends JpaRepository<Role, UserRole> {
+public interface UserRoleRepository extends JpaRepository<Role, AuthRole> {
 
     /**
      * Возвращает список ролей по массиву идентификаторов.
      *
-     * @param ids массив ролей {@link UserRole}
+     * @param ids массив ролей {@link AuthRole}
      * @return список ролей
      */
-    List<Role> findByIdIn(List<UserRole> ids);
+    List<Role> findByIdIn(List<AuthRole> ids);
 
     /**
      * Получает список ролей, назначенных пользователю по логину.

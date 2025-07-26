@@ -10,7 +10,7 @@ import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.dto.SignUpResponse;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
@@ -22,7 +22,7 @@ import static ryzendee.app.testutils.FixtureUtil.*;
 
 public class AuthServiceIT extends AbstractServiceIT {
 
-    private static final UserRole DEFAULT_ROLE_USER = UserRole.USER;
+    private static final AuthRole DEFAULT_ROLE_USER = AuthRole.USER;
 
     @Autowired
     private AuthService authService;

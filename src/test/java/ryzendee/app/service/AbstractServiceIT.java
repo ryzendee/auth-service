@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ryzendee.app.AbstractTestcontainers;
 import ryzendee.app.testutils.DatabaseUtil;
+import ryzendee.starter.jwt.config.JwtSecurityAutoConfiguration;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(DatabaseUtil.Config.class)
+@Import({DatabaseUtil.Config.class, JwtSecurityAutoConfiguration.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 abstract class AbstractServiceIT extends AbstractTestcontainers {

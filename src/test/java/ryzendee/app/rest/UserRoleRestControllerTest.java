@@ -16,8 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import ryzendee.app.config.SecurityConfiguration;
 import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.exception.ResourceNotFoundException;
-import ryzendee.app.security.JwtAuthenticationToken;
 import ryzendee.app.service.UserRoleService;
+import ryzendee.starter.jwt.auth.JwtAuthenticationToken;
+import ryzendee.starter.jwt.config.JwtSecurityAutoConfiguration;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static ryzendee.app.testutils.FixtureUtil.roleSaveRequestBuilderFixture;
 
 @WebMvcTest(UserRoleRestController.class)
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, JwtSecurityAutoConfiguration.class})
 public class UserRoleRestControllerTest {
 
     private static final String BASE_URI = "/user-role";

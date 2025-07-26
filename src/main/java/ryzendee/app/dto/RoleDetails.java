@@ -1,7 +1,7 @@
 package ryzendee.app.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 /**
  * DTO для передачи информации о роли пользователя.
@@ -12,7 +12,7 @@ import ryzendee.app.jwt.UserRole;
 public record RoleDetails(
 
         @Schema(description = "Уникальный идентификатор роли", example = "ADMIN")
-        UserRole id,
+        AuthRole id,
 
         @Schema(description = "Человекочитаемое название роли", example = "Администратор")
         String name

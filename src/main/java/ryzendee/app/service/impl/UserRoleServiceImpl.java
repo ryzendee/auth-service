@@ -1,14 +1,12 @@
 package ryzendee.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ryzendee.app.dto.RoleDetails;
 import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
-import ryzendee.app.jwt.UserRole;
 import ryzendee.app.mapper.UserRoleAppMapper;
 import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
@@ -17,8 +15,8 @@ import ryzendee.app.repository.UserRepository;
 import ryzendee.app.repository.UserRoleRepository;
 import ryzendee.app.repository.UserToRoleRepository;
 import ryzendee.app.service.UserRoleService;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,7 +38,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
         List<ryzendee.app.model.Role> roles = userRoleRepository.findByIdIn(request.roles());
         if (roles.size() != request.roles().size()) {
-            List<UserRole> missingRoles = findMissingRoles(roles, request.roles());
+            List<AuthRole> missingRoles = findMissingRoles(roles, request.roles());
             throw new MissingUserRoleException("Some roles are missing, try again later", missingRoles);
         }
 
@@ -62,8 +60,8 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .toList();
     }
 
-    private List<UserRole> findMissingRoles(List<ryzendee.app.model.Role> roles, List<UserRole> requestedRoles) {
-        Set<UserRole> foundRolesSet = roles.stream()
+    private List<AuthRole> findMissingRoles(List<ryzendee.app.model.Role> roles, List<AuthRole> requestedRoles) {
+        Set<AuthRole> foundRolesSet = roles.stream()
                 .map(ryzendee.app.model.Role::getId)
                 .collect(Collectors.toSet());
 

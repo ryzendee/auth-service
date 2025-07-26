@@ -8,7 +8,7 @@ import ryzendee.app.dto.RoleDetails;
 import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
 import ryzendee.app.testutils.DatabaseUtil;
@@ -36,8 +36,8 @@ public class UserRoleServiceIT extends AbstractServiceIT {
     void setUp() {
         databaseUtil.cleanDatabase();
 
-        roleAdmin = saveWithRole(UserRole.ADMIN);
-        roleUser = saveWithRole(UserRole.USER);
+        roleAdmin = saveWithRole(AuthRole.ADMIN);
+        roleUser = saveWithRole(AuthRole.USER);
 
         testUser = userFixture();
         databaseUtil.save(testUser);
@@ -53,7 +53,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
 
         List<RoleDetails> savedRoleDetails = userRoleService.getUserRolesByLogin(testUser.getLogin());
         assertThat(savedRoleDetails).isNotEmpty();
-        assertThat(savedRoleDetails.getFirst().id()).isIn(UserRole.ADMIN, UserRole.USER);
+        assertThat(savedRoleDetails.getFirst().id()).isIn(AuthRole.ADMIN, AuthRole.USER);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
     void saveRole_missingRole_shouldThrowMissingUserRoleException() {
         RoleSaveRequest request = roleSaveRequestBuilderFixture()
                 .login(testUser.getLogin())
-                .roles(List.of(UserRole.CREDIT_USER))
+                .roles(List.of(AuthRole.CREDIT_USER))
                 .build();
 
         assertThatThrownBy(() -> userRoleService.saveRole(request))
@@ -86,7 +86,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
 
         List<RoleDetails> roleDetails = userRoleService.getUserRolesByLogin(testUser.getLogin());
         assertThat(roleDetails).isNotEmpty();
-        assertThat(roleDetails.getFirst().id()).isEqualTo(UserRole.ADMIN);
+        assertThat(roleDetails.getFirst().id()).isEqualTo(AuthRole.ADMIN);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
-    private Role saveWithRole(UserRole userRole) {
+    private Role saveWithRole(AuthRole userRole) {
         Role role = roleFixture();
         role.setId(userRole);
         return databaseUtil.save(role);

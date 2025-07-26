@@ -1,6 +1,5 @@
 package ryzendee.app.service.impl;
 
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,24 +12,24 @@ import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.dto.SignUpResponse;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
-import ryzendee.app.jwt.JwtDecoder;
-import ryzendee.app.jwt.JwtPayload;
-import ryzendee.app.jwt.UserRole;
+import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.mapper.UserAppMapper;
-import ryzendee.app.model.User;
 import ryzendee.app.model.Role;
+import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
 import ryzendee.app.model.UserToRoleId;
 import ryzendee.app.repository.UserRepository;
 import ryzendee.app.repository.UserRoleRepository;
 import ryzendee.app.repository.UserToRoleRepository;
 import ryzendee.app.service.AuthService;
+import ryzendee.starter.jwt.decoder.JwtDecoder;
+import ryzendee.starter.jwt.decoder.JwtPayload;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private static final UserRole USER_ROLE = UserRole.USER;
+    private static final AuthRole USER_ROLE = AuthRole.USER;
 
     private final UserAppMapper userAppMapper;
     private final PasswordEncoder passwordEncoder;
