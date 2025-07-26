@@ -16,9 +16,8 @@
 
     <repositories>
         <repository>
-            <id>github</id>
-            <name>Github Packages</name>
-            <url>https://maven.pkg.github.com/ryzendee/jwt-decoder</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -28,7 +27,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <rest-assured.version>5.5.1</rest-assured.version>
         <jwt-decoder.version>1.0-SNAPSHOT</jwt-decoder.version>
-        <spring-security-jwt-starter.version>0.0.1-SNAPSHOT</spring-security-jwt-starter.version>
+        <spring-security-jwt-starter.version>0.0.1</spring-security-jwt-starter.version>
     </properties>
 
     <dependencies>
@@ -120,7 +119,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>ryzendee</groupId>
+            <groupId>com.github.ryzendee</groupId>
             <artifactId>spring-security-jwt-starter</artifactId>
             <version>${spring-security-jwt-starter.version}</version>
         </dependency>
