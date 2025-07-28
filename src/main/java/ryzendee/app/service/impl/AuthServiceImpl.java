@@ -10,6 +10,7 @@ import ryzendee.app.dto.SignInRequest;
 import ryzendee.app.dto.SignInResponse;
 import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.dto.SignUpResponse;
+import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
 import ryzendee.starter.jwt.decoder.AuthRole;
@@ -74,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
 
     private void saveDefaultRoleForUser(User user) {
         Role defaultRole = userRoleRepository.findById(USER_ROLE)
-                .orElseThrow(() -> new ResourceNotFoundException(""));
+                .orElseThrow(() -> new MissingUserRoleException("Failed to register, role is missing"));
         UserToRole userToRole = buildUserToRole(user, defaultRole);
         userToRoleRepository.save(userToRole);
     }
