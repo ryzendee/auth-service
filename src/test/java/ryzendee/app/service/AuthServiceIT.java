@@ -2,19 +2,31 @@ package ryzendee.app.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ryzendee.app.dto.SignInRequest;
 import ryzendee.app.dto.SignInResponse;
 import ryzendee.app.dto.SignUpRequest;
 import ryzendee.app.dto.SignUpResponse;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
+import ryzendee.app.mapper.UserAppMapper;
+import ryzendee.app.repository.UserRepository;
+import ryzendee.app.repository.UserRoleRepository;
+import ryzendee.app.repository.UserToRoleRepository;
+import ryzendee.app.service.helpers.UserRoleCreator;
+import ryzendee.app.service.impl.AuthServiceImpl;
 import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
 import ryzendee.app.model.UserToRoleId;
+import ryzendee.starter.jwt.decoder.JwtDecoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,8 +38,6 @@ public class AuthServiceIT extends AbstractServiceIT {
 
     @Autowired
     private AuthService authService;
-
-    private Role defaultRole;
 
     @BeforeEach
     void setUp() {
@@ -101,4 +111,34 @@ public class AuthServiceIT extends AbstractServiceIT {
         assertThatThrownBy(() -> authService.signIn(request))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
+
+    @TestConfiguration
+    static class Config {
+
+        @Bean
+        public AuthService authService(UserAppMapper mapper,
+                                       PasswordEncoder encoder,
+                                       JwtDecoder jwtDecoder,
+                                       UserRepository userRepo,
+                                       UserRoleCreator userRoleCreator,
+                                       UserToRoleRepository userToRole) {
+            return new AuthServiceImpl(mapper, encoder, jwtDecoder, userRepo, userRoleCreator, userToRole);
+        }
+
+        @Bean
+        public UserRoleCreator userRoleCreator(UserRoleRepository userRoleRepo) {
+            return new UserRoleCreator(userRoleRepo);
+        }
+
+        @Bean
+        public UserAppMapper userAppMapper() {
+            return Mappers.getMapper(UserAppMapper.class);
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+    }
+
 }
