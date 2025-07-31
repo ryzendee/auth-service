@@ -6,6 +6,13 @@ import ryzendee.app.enums.OAuth2Provider;
 
 import java.util.UUID;
 
+/**
+ * Модель данных об OAuth2.
+ *
+ * Хранит информацию о провайдере (например, Google, Facebook) и связи с пользователем
+ *
+ * @author Dmitry Ryazantsev
+ */
 @Table(name = "oauth2_user_info")
 @Entity
 @Builder

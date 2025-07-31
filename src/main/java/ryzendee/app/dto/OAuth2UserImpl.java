@@ -7,6 +7,16 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
+
+/**
+ * Реализация интерфейса {@link OAuth2User}, представляющая аутентифицированного пользователя,
+ * авторизованного через OAuth2-провайдера.
+ * <p>
+ * Используется для передачи информации о пользователе внутри Spring Security контекста.
+ * </p>
+ *
+ * @author Dmitry Ryazantsev
+ */
 @Builder
 public record OAuth2UserImpl (
 

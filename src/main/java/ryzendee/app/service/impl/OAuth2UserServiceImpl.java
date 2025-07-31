@@ -18,9 +18,15 @@ import ryzendee.app.service.helpers.OAuth2UserCreator;
 import ryzendee.app.service.helpers.OAuth2UserValidator;
 import ryzendee.app.service.helpers.UserRoleCreator;
 
-
+/**
+ * Сервис для загрузки и обработки OAuth2 пользователей.
+ *
+ * Реализует интерфейс {@link OAuth2UserService}, предоставляет логику загрузки
+ * и создания пользователя по запросу OAuth2.
+ *
+ * @author Dmitry Ryazantsev
+ */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -33,6 +39,19 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     private final OAuth2UserValidator oAuth2UserValidator;
     private final OAuth2UserCreator oAuth2UserCreator;
 
+    /**
+     * Загружает пользователя по OAuth2 запросу.
+     *
+     * <p>Если пользователь с указанным email существует и уже зарегистрирован с OAuth2,
+     * выполняется валидация соответствия провайдера OAuth2 из запроса и пользователя.
+     * Если пользователь существует, но не привязан к OAuth2, генерируется исключение.
+     * Если пользователь с указанным email отсутствует, создаётся новый пользователь с привязкой OAuth2.
+     * </p>
+     *
+     * @param userRequest объект {@link OAuth2UserRequest} с данными OAuth2 запроса
+     * @return аутентифицированный {@link OAuth2User} с ролями и данными пользователя
+     * @throws OAuth2AuthenticationException если пользователь зарегистрирован без OAuth2 или при несоответствии провайдера
+     */
     @Transactional
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -51,6 +70,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         return oAuth2UserAppMapper.toOauth2User(user);
     }
 
+    /**
+     * Создаёт и сохраняет нового пользователя и назначает ему дефолтную роль.
+     *
+     * @param oAuth2User   аутентифицированный OAuth2 пользователь
+     * @param userRequest  объект запроса OAuth2 с регистрационной информацией
+     * @return созданный и сохранённый {@link User}
+     */
     private User saveUser(OAuth2User oAuth2User, OAuth2UserRequest userRequest) {
         User created = oAuth2UserCreator.create(oAuth2User, userRequest);
         userRepository.saveAndFlush(created);

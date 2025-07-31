@@ -1,7 +1,12 @@
 package ryzendee.app.enums;
 
-import java.util.Arrays;
-import java.util.Optional;
+
+/**
+ * Перечисление поддерживаемых OAuth2 провайдеров.
+ * В текущей реализации поддерживается только Google.
+ *
+ * @author Dmitry Ryazantsev
+ */
 
 public enum OAuth2Provider {
     GOOGLE;
