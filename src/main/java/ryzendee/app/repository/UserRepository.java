@@ -24,10 +24,21 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByLogin(String login);
 
     /**
+     * Проверяет, существует ли пользователь с указанной электронной почтой.
+     *
+     * @param email электронная почта пользователя
+     * @return true, если пользователь существует
+     */
+    boolean existsByEmail(String email);
+
+    /**
      * Проверяет, существует ли пользователь с указанным логином.
      *
      * @param login логин для проверки
      * @return true, если пользователь существует
      */
     boolean existsByLogin(String login);
+
+    @Query("SELECT u FROM User u JOIN u.oAuth2UserInfo WHERE u.email = :email")
+    Optional<User> findByEmailWithOAuth2Info(@Param("email") String email);
 }
