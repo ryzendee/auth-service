@@ -8,6 +8,7 @@ import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.mapper.UserRoleAppMapper;
+import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
 import ryzendee.app.model.UserToRole;
 import ryzendee.app.model.UserToRoleId;
@@ -36,7 +37,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         User user = userRepository.findByLogin(request.login())
                 .orElseThrow(() -> new ResourceNotFoundException("User with given login does not exists"));
 
-        List<ryzendee.app.model.Role> roles = userRoleRepository.findByIdIn(request.roles());
+        List<Role> roles = userRoleRepository.findByIdIn(request.roles());
         if (roles.size() != request.roles().size()) {
             List<AuthRole> missingRoles = findMissingRoles(roles, request.roles());
             throw new MissingUserRoleException("Some roles are missing, try again later", missingRoles);
@@ -60,9 +61,9 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .toList();
     }
 
-    private List<AuthRole> findMissingRoles(List<ryzendee.app.model.Role> roles, List<AuthRole> requestedRoles) {
+    private List<AuthRole> findMissingRoles(List<Role> roles, List<AuthRole> requestedRoles) {
         Set<AuthRole> foundRolesSet = roles.stream()
-                .map(ryzendee.app.model.Role::getId)
+                .map(Role::getId)
                 .collect(Collectors.toSet());
 
         return requestedRoles.stream()
@@ -70,7 +71,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .toList();
     }
 
-    private UserToRole buildUserToRole(User user, ryzendee.app.model.Role role) {
+    private UserToRole buildUserToRole(User user, Role role) {
         UserToRoleId id = UserToRoleId.builder()
                 .roleId(role.getId())
                 .userId(user.getId())

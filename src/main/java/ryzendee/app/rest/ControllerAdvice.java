@@ -9,6 +9,7 @@ import ryzendee.app.dto.ErrorDetails;
 import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
 import ryzendee.app.exception.UserExistsException;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class ControllerAdvice {
     @ExceptionHandler(MissingUserRoleException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDetails handleMissingUserRoleException(MissingUserRoleException ex) {
+        if (!ex.getMissingRoles().isEmpty()) {
+            String msg = formatMissingUserRoleMessage(ex);
+        }
         return createErrorDetails(ex.getMessage());
     }
 
@@ -42,4 +46,12 @@ public class ControllerAdvice {
     public ErrorDetails createErrorDetails(String message) {
         return new ErrorDetails(List.of(message));
     }
+
+    private String formatMissingUserRoleMessage(MissingUserRoleException ex) {
+        List<String> stringRoles = ex.getMissingRoles().stream()
+                .map(AuthRole::name)
+                .toList();
+        return ex.getMessage() + ": " + String.join(", ", stringRoles);
+    }
+
 }

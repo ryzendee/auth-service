@@ -27,8 +27,6 @@ import ryzendee.starter.jwt.decoder.JwtPayload;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private static final AuthRole USER_ROLE = AuthRole.USER;
-
     private final UserAppMapper userAppMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtDecoder jwtDecoder;
