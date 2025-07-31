@@ -14,8 +14,32 @@ spring:
       ddl-auto: validate
   liquibase:
     enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 772999049758-8q0ug77vrgu177v7i8b93054pn7rl6al.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            provider: google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
 
 jwt:
   secret: qO8zR9Avpm1FLzXzo1kS9OytZ+QjzUpgGzkhEwo6hH4=
   issuer: fintech-application
-  expiration: 3600000 # 1 ???
+  expiration: 3600000 # 1 час
+
+logging:
+  level:
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.oauth2.core: DEBUG

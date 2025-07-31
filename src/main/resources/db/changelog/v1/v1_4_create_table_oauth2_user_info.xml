@@ -1,0 +1,41 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-4" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth2_user_info"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="oauth2_user_info">
+
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="user_id" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="provider" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="oauth2_user_info"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_oauth2_user_info__user"/>
+
+
+    </changeSet>
+
+</databaseChangeLog>
