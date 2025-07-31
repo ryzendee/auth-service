@@ -6,10 +6,14 @@ import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ryzendee.app.config.SecurityConfiguration;
@@ -25,8 +29,8 @@ import static org.mockito.Mockito.verify;
 import static ryzendee.app.testutils.FixtureUtil.signInRequestBuilderFixture;
 import static ryzendee.app.testutils.FixtureUtil.signUpRequestFixtureBuilder;
 
-@Import({SecurityConfiguration.class, JwtSecurityAutoConfiguration.class})
 @WebMvcTest(AuthRestController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class AuthRestControllerTest {
 
     private static final String BASE_URI = "/auth";

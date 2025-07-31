@@ -45,8 +45,15 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime modifyDate;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private OAuth2UserInfo oAuth2UserInfo;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Builder.Default
     private List<UserToRole> roles = new ArrayList<>();
 
+    public void addUserToRole(UserToRole userToRole) {
+        userToRole.assignUser(this);
+        roles.add(userToRole);
+    }
 }

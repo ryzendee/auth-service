@@ -29,4 +29,9 @@ public class UserToRole {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public void assignUser(User user) {
+        this.id.setUserId(user.getId());
+        this.setUser(user);
+    }
+
 }

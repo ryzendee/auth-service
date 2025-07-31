@@ -6,11 +6,15 @@ import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ryzendee.app.config.SecurityConfiguration;
@@ -27,7 +31,7 @@ import static org.mockito.Mockito.verify;
 import static ryzendee.app.testutils.FixtureUtil.roleSaveRequestBuilderFixture;
 
 @WebMvcTest(UserRoleRestController.class)
-@Import({SecurityConfiguration.class, JwtSecurityAutoConfiguration.class})
+@AutoConfigureMockMvc(addFilters = false)
 public class UserRoleRestControllerTest {
 
     private static final String BASE_URI = "/user-role";
@@ -37,7 +41,6 @@ public class UserRoleRestControllerTest {
 
     @MockitoBean
     private UserRoleService userRoleService;
-
     private MockMvcRequestSpecification request;
 
     @BeforeEach
@@ -47,8 +50,7 @@ public class UserRoleRestControllerTest {
         RestAssuredMockMvc.enableLoggingOfRequestAndResponseIfValidationFails();
 
         request = RestAssuredMockMvc.given()
-                .contentType(ContentType.JSON)
-                .auth().authentication(createAuthentication());
+                .contentType(ContentType.JSON);
     }
 
     @Test

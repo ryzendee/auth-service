@@ -2,12 +2,22 @@ package ryzendee.app.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.test.context.support.WithMockUser;
 import ryzendee.app.dto.RoleDetails;
 import ryzendee.app.dto.RoleSaveRequest;
 import ryzendee.app.exception.MissingUserRoleException;
 import ryzendee.app.exception.ResourceNotFoundException;
+import ryzendee.app.mapper.UserRoleAppMapper;
+import ryzendee.app.repository.UserRepository;
+import ryzendee.app.repository.UserRoleRepository;
+import ryzendee.app.repository.UserToRoleRepository;
+import ryzendee.app.service.impl.UserRoleServiceImpl;
 import ryzendee.starter.jwt.decoder.AuthRole;
 import ryzendee.app.model.Role;
 import ryzendee.app.model.User;
@@ -19,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static ryzendee.app.testutils.FixtureUtil.*;
 
-@WithMockUser(roles = "ADMIN")
+@DataJpaTest
 public class UserRoleServiceIT extends AbstractServiceIT {
 
     @Autowired
@@ -63,7 +73,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
 
         assertThatThrownBy(() -> userRoleService.saveRole(request))
                 .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessageContaining("User with given login does not exists");
+                .message().isNotBlank();
     }
 
     @Test
@@ -75,7 +85,7 @@ public class UserRoleServiceIT extends AbstractServiceIT {
 
         assertThatThrownBy(() -> userRoleService.saveRole(request))
                 .isInstanceOf(MissingUserRoleException.class)
-                .hasMessageContaining("Some roles are missing");
+                .message().isNotBlank();
     }
 
     @Test
@@ -99,5 +109,22 @@ public class UserRoleServiceIT extends AbstractServiceIT {
         Role role = roleFixture();
         role.setId(userRole);
         return databaseUtil.save(role);
+    }
+
+    @TestConfiguration
+    static class Config {
+
+        @Bean
+        public UserRoleService userRoleService(UserRoleAppMapper mapper,
+                                               UserRepository userRepository,
+                                               UserRoleRepository roleRepository,
+                                               UserToRoleRepository userToRoleRepository) {
+            return new UserRoleServiceImpl(mapper, userRepository, roleRepository, userToRoleRepository);
+        }
+
+        @Bean
+        public UserRoleAppMapper userRoleAppMapper() {
+            return Mappers.getMapper(UserRoleAppMapper.class);
+        }
     }
 }

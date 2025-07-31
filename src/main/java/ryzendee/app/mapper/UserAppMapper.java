@@ -1,6 +1,7 @@
 package ryzendee.app.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import ryzendee.app.dto.SignUpRequest;
@@ -47,6 +48,7 @@ public interface UserAppMapper {
      * @param model модель {@link User}
      * @return DTO {@link JwtPayload}
      */
+    @Mapping(source = "login", target = "subject")
     JwtPayload toJwtCredentials(User model);
 
     /**
