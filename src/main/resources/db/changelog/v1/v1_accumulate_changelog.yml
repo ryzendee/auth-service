@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/v1/v1_2_create_table_user_role.xml
   - include:
       file: db/changelog/v1/v1_3_create_table_user_to_role.xml
+  - include:
+      file: db/changelog/v1/v1_4_create_table_oauth2_user_info.xml
